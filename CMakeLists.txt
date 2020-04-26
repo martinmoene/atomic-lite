@@ -11,15 +11,15 @@ cmake_minimum_required( VERSION 3.5 FATAL_ERROR )
 
 project(
 	atomic_lite	VERSION 0.0.0
-#   DESCRIPTION "A C++11-like atomic for C++98, C++11 and later in a single-file header-only library"
-#   HOMEPAGE_URL "https://github.com/martinmoene/atomic-lite"
+#	DESCRIPTION "A C++11-like atomic for C++98, C++11 and later in a single-file header-only library"
+#	HOMEPAGE_URL "https://github.com/martinmoene/atomic-lite"
 	LANGUAGES CXX )
 
 # Package information:
 
-set( unit_name       "atomic" )
+set( unit_name		 "atomic" )
 set( package_nspace  "nonstd" )
-set( package_name    "${unit_name}-lite" )
+set( package_name	 "${unit_name}-lite" )
 set( package_version "${${PROJECT_NAME}_VERSION}" )
 
 message( STATUS "Project '${PROJECT_NAME}', package '${package_name}' version: '${package_version}'")
@@ -37,7 +37,7 @@ endif()
 option( ATOMIC_LITE_OPT_BUILD_TESTS    "Build and perform atomic-lite tests" ${atomic_IS_TOPLEVEL_PROJECT} )
 option( ATOMIC_LITE_OPT_BUILD_EXAMPLES "Build atomic-lite examples" OFF )
 
-option( ATOMIC_LITE_OPT_SELECT_STD     "Select std::atomic"    OFF )
+option( ATOMIC_LITE_OPT_SELECT_STD	   "Select std::atomic"    OFF )
 option( ATOMIC_LITE_OPT_SELECT_NONSTD  "Select nonstd::atomic" OFF )
 
 # If requested, build and perform tests, build examples:
@@ -77,10 +77,10 @@ target_include_directories(
 # Package configuration:
 # Note: package_name and package_target are used in package_config_in
 
-set( package_folder         "${package_name}" )
-set( package_target         "${package_name}-targets" )
-set( package_config         "${package_name}-config.cmake" )
-set( package_config_in      "${package_name}-config.cmake.in" )
+set( package_folder 		"${package_name}" )
+set( package_target 		"${package_name}-targets" )
+set( package_config 		"${package_name}-config.cmake" )
+set( package_config_in		"${package_name}-config.cmake.in" )
 set( package_config_version "${package_name}-config-version.cmake" )
 
 configure_package_config_file(
@@ -97,14 +97,14 @@ configure_file(
 # Installation:
 
 install(
-	TARGETS      ${package_name}
-	EXPORT       ${package_target}
+	TARGETS 	 ${package_name}
+	EXPORT		 ${package_target}
 #	INCLUDES DESTINATION "${...}"  # already set via target_include_directories()
 )
 
 install(
-	EXPORT       ${package_target}
-	NAMESPACE    ${package_nspace}::
+	EXPORT		 ${package_target}
+	NAMESPACE	 ${package_nspace}::
 	DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${package_folder}"
 )
 
@@ -115,7 +115,7 @@ install(
 )
 
 install(
-	DIRECTORY   "include/"
+	DIRECTORY	"include/"
 	DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 )
 
