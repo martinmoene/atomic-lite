@@ -191,7 +191,7 @@ if( HAS_CPP11_FLAG )
 		target_compile_definitions( ${PROGRAM}-cpp11.t PRIVATE atomic_CONFIG_SELECT_ATOMIC=${WHICH} )
 	endif()
 
-	if( HAS_CPP11_FLAG )
+	if( HAS_CPP14_FLAG )
 		target_compile_definitions( ${PROGRAM}-cpp14.t PRIVATE atomic_CONFIG_SELECT_ATOMIC=${WHICH} )
 	endif()
 
