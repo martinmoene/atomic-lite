@@ -22,7 +22,7 @@ indent_style = space
 
 # YAML scripts:
 [*.yml]
-indent_size = 4
+indent_size = 2
 indent_style = space
 
 # Makefiles: Tab indentation (no size specified)
