@@ -312,8 +312,6 @@ struct atomic_flag_base
 	atomic_flag_data_type flag;
 };
 
-struct atomic_flag_init{};
-
 struct atomic_flag : atomic_flag_base
 {
 	bool test_and_set( memory_order order = memory_order_seq_cst ) volatile atomic_noexcept
@@ -374,15 +372,6 @@ struct atomic_flag : atomic_flag_base
 		: atomic_flag_base() {}
 #endif
 
-	// Conversion to ATOMIC_FLAG_INIT as atomic_flag_init{}:
-
-	atomic_constexpr atomic_flag( atomic_flag_init const & ) atomic_noexcept
-#if atomic_CPP11_OR_GREATER
-		: atomic_flag_base{0} {}
-#else
-		: atomic_flag_base() {}
-#endif
-
 atomic_delete_ac
 	atomic_flag( atomic_flag const & ) atomic_delete;
 
@@ -433,10 +422,8 @@ inline void atomic_flag_clear_explicit( atomic_flag * flag, memory_order order )
 }
 
 #if atomic_CPP11_OR_GREATER
-//# define ATOMIC_FLAG_INIT ::nonstd::atomic_lite::atomic_flag_init{}
 # define ATOMIC_FLAG_INIT {0}
 #else
-//# define ATOMIC_FLAG_INIT ::nonstd::atomic_lite::atomic_flag_init()
 # define ATOMIC_FLAG_INIT 0
 #endif
 
