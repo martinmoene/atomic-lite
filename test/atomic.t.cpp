@@ -40,7 +40,11 @@ CASE( "atomic: ..." )
 #include <iostream>
 //#include <atomic>
 
+#if atomic_CPP11_110
 nonstd::atomic_flag lock = ATOMIC_FLAG_INIT;
+#else
+nonstd::atomic_flag lock;
+#endif
 
 void f( int n )
 {
