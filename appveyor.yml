@@ -38,7 +38,7 @@ matrix:
 
 before_build:
   - mkdir build && cd build
-  - cmake -A %platform% -G "%generator%" -DATOMIC_LITE_OPT_SELECT_NONSTD=ON -DATOMIC_LITE_OPT_BUILD_TESTS=ON -DATOMIC_LITE_OPT_BUILD_EXAMPLES=OFF ..
+  - cmake -A %platform% -G "%generator%" -DCMAKE_CXX_FLAGS:="-Datomic_CONFIG_SELECT_ATOMIC=atomic_ATOMIC_NONSTD" -DATOMIC_LITE_OPT_BUILD_TESTS=ON -DATOMIC_LITE_OPT_BUILD_EXAMPLES=OFF ..
 
 build_script:
   - cmake --build . --config %configuration%
