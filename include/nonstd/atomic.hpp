@@ -73,9 +73,23 @@
 
 namespace nonstd {
 
+	using std::memory_order;
+	using std::memory_order_relaxed;
+	using std::memory_order_consume;
+	using std::memory_order_acquire;
+	using std::memory_order_release;
+	using std::memory_order_acq_rel;
+	using std::memory_order_seq_cst;
+
 	using std::atomic;
 	using std::atomic_flag;
-}
+
+	using std::atomic_flag_test_and_set;
+	using std::atomic_flag_test_and_set_explicit;
+	using std::atomic_flag_clear;
+	using std::atomic_flag_clear_explicit;
+
+} // namespace nonstd
 
 #else // atomic_USES_STD_ATOMIC
 
@@ -443,8 +457,12 @@ namespace nonstd {
 	using atomic_lite::atomic;
 	using atomic_lite::atomic_flag;
 
-} // namespace nonstd
+	using atomic_lite::atomic_flag_test_and_set;
+	using atomic_lite::atomic_flag_test_and_set_explicit;
+	using atomic_lite::atomic_flag_clear;
+	using atomic_lite::atomic_flag_clear_explicit;
 
+} // namespace nonstd
 
 #endif // atomic_USES_STD_ATOMIC
 
