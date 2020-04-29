@@ -23,6 +23,7 @@ message( STATUS "Subproject '${PROJECT_NAME}', programs '${PROGRAM}-*'")
 set( DEFCMN  "" )
 set( OPTIONS "" )
 
+set( HAS_STD_ATOMIC FALSE )
 set( HAS_STD_FLAGS	FALSE )
 set( HAS_CPP98_FLAG FALSE )
 set( HAS_CPP11_FLAG FALSE )
@@ -39,6 +40,9 @@ if( MSVC )
 	set( OPTIONS	 -W3 -EHsc )
 	set( DEFINITIONS -D_SCL_SECURE_NO_WARNINGS ${DEFCMN} )
 
+	if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 17.00 )
+		set( HAS_STD_ATOMIC TRUE )
+	endif()
 	if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.00 )
 		set( HAS_CPP14_FLAG TRUE )
 		set( HAS_CPPLATEST_FLAG TRUE )
@@ -176,9 +180,13 @@ else()
 	endif()
 endif()
 
-# with C++11 and higher, honour explicit request for std::atomic or nonstd::atomic:
+# if std atomic is available (C++11 and higher), honour explicit request for std::atomic or nonstd::atomic:
 
-if( HAS_CPP11_FLAG )
+if ( HAS_CPP11_FLAG )
+	set( HAS_STD_ATOMIC TRUE )
+endif()
+
+if( HAS_STD_ATOMIC )
 	set( WHICH atomic_ATOMIC_DEFAULT )
 
 	if( ATOMIC_LITE_OPT_SELECT_STD )
@@ -201,6 +209,10 @@ if( HAS_CPP11_FLAG )
 
 	if( HAS_CPPLATEST_FLAG )
 		target_compile_definitions( ${PROGRAM}-cpplatest.t PRIVATE atomic_CONFIG_SELECT_ATOMIC=${WHICH} )
+	endif()
+
+	if( HAS_STD_ATOMIC )
+		target_compile_definitions( ${PROGRAM}-cpp98.t PRIVATE atomic_CONFIG_SELECT_ATOMIC=${WHICH} )
 	endif()
 endif()
 
