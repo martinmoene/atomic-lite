@@ -298,7 +298,7 @@ namespace nonstd { namespace atomic_lite {
 #ifndef __GNUC__
 # if atomic_COMPILER_MSVC_VER > 1700
 #  define __sync_bool_compare_and_swap(object, expected, desired) \
-	 ( _InterlockedCompareExchange( reinterpret_cast<long *>(object), desired, expected) == (expected) )
+	 ( _InterlockedCompareExchange( (long *) object, desired, expected) == (expected) )
 # else
 #  define __sync_bool_compare_and_swap(object, expected, desired) \
 	( InterlockedCompareExchangePointer( 			\
