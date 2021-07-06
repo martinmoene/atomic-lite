@@ -298,10 +298,14 @@ namespace nonstd { namespace atomic_lite {
 #ifndef __GNUC__
 # if atomic_COMPILER_MSVC_VER > 1700
 #  define __sync_bool_compare_and_swap(object, expected, desired) \
-	 ( _InterlockedCompareExchange((long *) object, desired, expected) == (expected) )
+	 ( _InterlockedCompareExchange( reinterpret_cast<long *>(object), desired, expected) == (expected) )
 # else
 #  define __sync_bool_compare_and_swap(object, expected, desired) \
-	( InterlockedCompareExchangePointer( (void*volatile*)object, (PVOID)expected, (PVOID)desired ), (*object) == (expected) )
+	( InterlockedCompareExchangePointer( 			\
+		reinterpret_cast<void*volatile*>(object) 	\
+		, reinterpret_cast<PVOID>(expected) 		\
+		, reinterpret_cast<PVOID>(desired) ) 		\
+		, (*object) == (expected) )
 # endif
 #endif // __GNUC__
 
