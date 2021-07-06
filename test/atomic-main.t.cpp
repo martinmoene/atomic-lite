@@ -41,7 +41,7 @@ CASE( "__cplusplus" "[.stdc++]" )
 
 CASE( "Compiler version" "[.compiler]" )
 {
-#if atomic_USES_STD_atomic
+#if atomic_USES_STD_ATOMIC
     std::cout << "(Compiler version not available: using std::atomic)\n";
 #else
 	// atomic_PRESENT( atomic_COMPILER_CLANG_VERSION );
@@ -52,7 +52,7 @@ CASE( "Compiler version" "[.compiler]" )
 
 CASE( "Presence of C++ language features" "[.stdlanguage]" )
 {
-#if atomic_USES_STD_atomic
+#if atomic_USES_STD_ATOMIC
     std::cout << "(Presence of C++ language features not available: using std::atomic)\n";
 #else
 #endif
@@ -60,7 +60,7 @@ CASE( "Presence of C++ language features" "[.stdlanguage]" )
 
 CASE( "Presence of C++ library features" "[.stdlibrary]" )
 {
-#if atomic_USES_STD_atomic
+#if atomic_USES_STD_ATOMIC
     std::cout << "(Presence of C++ library features not available: using std::atomic)\n";
 #else
 #endif
