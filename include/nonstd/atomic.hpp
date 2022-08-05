@@ -30,7 +30,7 @@
 
 // ?? Control presence of exception handling (try and auto discover):
 
-// C++ language version detection (C++20 is speculative):
+// C++ language version detection (C++23 is speculative):
 // Note: VC14.0/1900 (VS2015) lacks too much from C++14.
 
 #ifndef   atomic_CPLUSPLUS
@@ -45,7 +45,7 @@
 #define atomic_CPP11_OR_GREATER  ( atomic_CPLUSPLUS >= 201103L )
 #define atomic_CPP14_OR_GREATER  ( atomic_CPLUSPLUS >= 201402L )
 #define atomic_CPP17_OR_GREATER  ( atomic_CPLUSPLUS >= 201703L )
-#define atomic_CPP20_OR_GREATER  ( atomic_CPLUSPLUS >= 202000L )
+#define atomic_CPP20_OR_GREATER  ( atomic_CPLUSPLUS >= 202002L )
 
 // Use C++11 std::atomic if available and requested:
 
