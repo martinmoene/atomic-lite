@@ -1,4 +1,4 @@
-# Copyright 2020-2020 by Martin Moene
+# Copyright 2020-2022 by Martin Moene
 #
 # https://github.com/martinmoene/atomic-lite
 #
@@ -11,10 +11,11 @@ endif()
 
 project( test LANGUAGES CXX )
 
-set( unit_name "atomic" )
+# unit_name provided by toplevel CMakeLists.txt [set( unit_name "xxx" )]
 set( PACKAGE   ${unit_name}-lite )
 set( PROGRAM   ${unit_name}-lite )
 set( SOURCES   ${unit_name}-main.t.cpp ${unit_name}.t.cpp )
+set( TWEAKD    "." )
 
 message( STATUS "Subproject '${PROJECT_NAME}', programs '${PROGRAM}-*'")
 
@@ -73,6 +74,9 @@ elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang" )
 		if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.1.0 )
 			set( HAS_CPP17_FLAG TRUE )
 		endif()
+		if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 10.0.0 )
+			set( HAS_CPP20_FLAG TRUE )
+		endif()
 
 	# AppleClang: available -std flags depends on version
 	elseif( CMAKE_CXX_COMPILER_ID MATCHES "AppleClang" )
@@ -87,6 +91,9 @@ elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang" )
 		if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.2.0 )
 			set( HAS_CPP17_FLAG TRUE )
 		endif()
+		# if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS x.x.x )
+		#     set( HAS_CPP20_FLAG TRUE )
+		# endif()
 
 	# Clang: available -std flags depends on version
 	elseif( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
@@ -100,6 +107,9 @@ elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang" )
 		endif()
 		if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0.0 )
 			set( HAS_CPP17_FLAG TRUE )
+		endif()
+		if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 10.0.0 )
+			set( HAS_CPP20_FLAG TRUE )
 		endif()
 	endif()
 
@@ -129,6 +139,7 @@ function( make_target target std )
 
 	add_executable			  ( ${target} ${SOURCES} )
     target_include_directories( ${target} SYSTEM  PRIVATE lest )
+	target_include_directories( ${target} PRIVATE ${TWEAKD} )
 	target_link_libraries	  ( ${target} PRIVATE ${PACKAGE} )
 	target_compile_options	  ( ${target} PRIVATE ${OPTIONS} )
 	target_compile_definitions( ${target} PRIVATE ${DEFINITIONS} )
@@ -176,6 +187,10 @@ else()
 		enable_msvs_guideline_checker( ${PROGRAM}-cpp17.t )
 	endif()
 
+	if( HAS_CPP20_FLAG )
+		make_target( ${PROGRAM}-cpp20.t 20 )
+	endif()
+
 	if( HAS_CPPLATEST_FLAG )
 		make_target( ${PROGRAM}-cpplatest.t latest )
 	endif()
@@ -219,8 +234,6 @@ endif()
 
 # configure unit tests via CTest:
 
-enable_testing()
-
 if( HAS_STD_FLAGS )
 	# unconditionally add C++98 variant for MSVC:
 	add_test(	  NAME test-cpp98	  COMMAND ${PROGRAM}-cpp98.t )
@@ -233,6 +246,9 @@ if( HAS_STD_FLAGS )
 	endif()
 	if( HAS_CPP17_FLAG )
 		add_test( NAME test-cpp17	  COMMAND ${PROGRAM}-cpp17.t )
+	endif()
+	if( HAS_CPP20_FLAG )
+		add_test( NAME test-cpp20     COMMAND ${PROGRAM}-cpp20.t )
 	endif()
 	if( HAS_CPPLATEST_FLAG )
 		add_test( NAME test-cpplatest COMMAND ${PROGRAM}-cpplatest.t )
