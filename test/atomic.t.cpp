@@ -39,6 +39,7 @@ CASE( "atomic: ..." )
 #include <vector>
 #include <iostream>
 //#include <atomic>
+#include <immintrin.h> // for _mm_pause()
 
 #if atomic_CPP11_110
 nonstd::atomic_flag lock = ATOMIC_FLAG_INIT;
